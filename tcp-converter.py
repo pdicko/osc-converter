@@ -13,6 +13,7 @@ print(f"Connected to console at {socket.getpeername()}")
 msg = oscbuildparse.OSCMessage("/eos/ping", ",si", ("hello console", 12))
 packet = oscbuildparse.encode_packet(msg)
 socket.send_msg(packet)
+print(msg)
 
 while True:
     reply_bytes = socket.recv_msg()
