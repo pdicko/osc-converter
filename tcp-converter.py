@@ -3,9 +3,9 @@ import sliplib
 from osc4py3 import oscbuildparse
 
 
-SERVER_IP = "10.101.90.102"
+CONSOLE_IP = "10.101.90.102"
 PORT = 3032
-ADDRESS = (SERVER_IP, PORT)
+ADDRESS = (CONSOLE_IP, PORT)
 
 socket = sliplib.SlipSocket.create_connection(ADDRESS)
 print(f"Connected to console at {socket.getpeername()}")
