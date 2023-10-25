@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings</title>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Settings</h1>
+    </div>
+    <div class="settings device">
+      <h2>Device Settings</h2>
+      <form action="" method="POST" class="device-form">
+        <div class="console-fields">
+          <label for="console-ip">Console IP</label>
+          <input type="text" name="console-ip" id="console-ip">
+          <label for="tcp-port">TCP Port</label>
+          <input type="number" name="tcp-port" id="tcp-port">
+        </div>
+        <div class="serial-fields">
+          <label for="serial-device">Serial Device Address</label>
+          <input type="text" name="serial-device" id="serial-device">
+          <label for="baudrate">Baud Rate</label>
+          <input type="number" name="baudrate" id="baudrate">
+        </div>
+        <button type="submit">Apply changes</button>
+        <button type="reset">Restore default settings</button>
+      </form>
+    </div>
+    <div class="settings network">
+      <h2>Local Settings</h2>
+      <form action="" method="POST">
+        <label for="local-ip">Local IP</label>
+        <input type="text" name="local-ip" id="local-ip">
+        <label for="subnet-mask">Subnet mask</label>
+        <input type="text" name="subnet-mask" id="subnet-mask">
+        <label for="gateway">Gateway</label>
+        <input type="text" name="gateway" id="gateway">
+        <button type="submit">Apply changes</button>
+        <button type="reset">Restore default settings</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
