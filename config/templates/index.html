@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Settings</title>
+
+  <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
   <div class="container">
@@ -11,37 +13,68 @@
       <h1>Settings</h1>
     </div>
     <div class="settings device">
-      <h2>Device Settings</h2>
+      <div class="section">
+        <div class="line"></div>
+        <div class="form-heading">
+          <h2>Device Settings</h2>
+        </div>
+        <div class="line"></div>
+      </div>
       <form action="" method="POST" id="device-form">
         <!-- {{ device_form }} -->
-        <div class="console-fields">
-          {{ device_form.console_ip.label(class="") }}
-          {{ device_form.console_ip }}
-          {{ device_form.tcp_port.label(class="") }}
-          {{ device_form.tcp_port }}
+        <div class="fields">
+          <div class="field">
+            {{ device_form.console_ip.label(class="") }}
+            {{ device_form.console_ip }}
+          </div>
+          <div class="field">
+            {{ device_form.tcp_port.label(class="") }}
+            {{ device_form.tcp_port }}
+          </div>
         </div>
-        <div class="serial-fields">
-          {{ device_form.serial_device.label(class="") }}
-          {{ device_form.serial_device }}
-          {{ device_form.baud_rate.label(class="") }}
-          {{ device_form.baud_rate }}
+        <div class="fields">
+          <div class="field">
+            {{ device_form.serial_device.label(class="") }}
+            {{ device_form.serial_device }}
+          </div>
+          <div class="field">
+            {{ device_form.baud_rate.label(class="") }}
+            {{ device_form.baud_rate }}
+          </div>
         </div>
-        {{ device_form.submit_device_form }}
-        {{ device_form.reset_device_form }}
+        <div class="buttons">
+          {{ device_form.submit_device_form }}
+          {{ device_form.reset_device_form }}
+        </div>
       </form>
     </div>
     <div class="settings network">
-      <h2>Local Settings</h2>
+      <div class="section">
+        <div class="line"></div>
+        <div class="form-heading">
+          <h2>Local Settings</h2>
+        </div>
+        <div class="line"></div>
+      </div>
       <form action="" method="POST" id="network-form">
-        <!-- {{ network_form }} -->
-        {{ network_form.ip.label }}
-        {{ network_form.ip }}
-        {{ network_form.subnet_mask.label }}
-        {{ network_form.subnet_mask }}
-        {{ network_form.gateway.label }}
-        {{ network_form.gateway }}
-        {{ network_form.submit_network_form }}
-        {{ network_form.reset_network_form }}
+        <div class="fields">
+          <div class="field">
+            {{ network_form.ip.label }}
+            {{ network_form.ip }}
+          </div>
+          <div class="field">
+            {{ network_form.subnet_mask.label }}
+            {{ network_form.subnet_mask }}
+          </div>
+          <div class="field">
+            {{ network_form.gateway.label }}
+            {{ network_form.gateway }}
+          </div>
+        </div>
+        <div class="buttons">
+          {{ network_form.submit_network_form }}
+          {{ network_form.reset_network_form }}
+        </div>
       </form>
     </div>
   </div>

@@ -1,0 +1,150 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  box-sizing: border-box;
+  color: #33415c;
+}
+
+.container {
+  width: 100vw;
+  margin: auto;
+  padding: 0;
+}
+
+.header {
+  margin: 0;
+  margin-top: 0;
+  padding: 0;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #b5b5b5;
+}
+
+.settings {
+  padding-left: 15px;
+  padding-bottom: 20px;
+  margin: 20px;
+}
+
+.section {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.line {
+  position: relative;
+  top: 8px;
+  height: 1em;
+  border-top: 1px solid black;
+  flex: 1;
+}
+
+.form-heading {
+  padding: 0 12px;
+}
+
+.network, .device {
+  width: 40%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.device {
+  margin-bottom: 50px;
+}
+
+.fields {
+  display: flex;
+  gap: 30px;
+  padding-bottom: 10px;
+  justify-content: center;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 8px;
+}
+
+#network-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  appearance: none;
+  outline: none;
+  border: 1px solid #14213d;
+  border-radius: 3px;
+  background-color: #f9f9f9;
+  width: 150px;
+  height: 1.5rem;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+}
+
+input:focus {
+  border: 1px solid #084365;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.field > label {
+  font-size: 12px;
+  padding-bottom: 3px;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+  padding-top: 15px;
+  justify-content: center;
+}
+
+input[type=submit] {
+  background-color: #f9fafb;
+  width: 200px;
+}
+
+#submit_device_form, #submit_network_form {
+  background-color: #6096ba;
+  color: #fff;
+}
+
+#reset_device_form, #reset_network_form {
+  background-color: #b5b5b5;
+  color: #33415c;
+}
+
+h1, h2 {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 200;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: #6096ba;
+  font-size: 1rem;
+}
+
+h2 {
+  margin-bottom: 5px;
+  font-size: 1rem;
+}
