@@ -10,9 +10,9 @@ class DeviceSettings(FlaskForm):
         self._populate_current_values()
 
     console_ip = StringField('Console IP', validators=[IPAddress(), InputRequired()])
-    tcp_port = IntegerField('TCP Port', validators=[InputRequired()])
+    tcp_port = StringField('TCP Port', validators=[InputRequired()])
     serial_device = StringField('Serial device', validators=[InputRequired()])
-    baud_rate = IntegerField('Baud rate', validators=[InputRequired()])
+    baud_rate = StringField('Baud rate', validators=[InputRequired()])
     submit_device_form = SubmitField('Apply changes')
     reset_device_form = SubmitField('Restore default settings')
 
