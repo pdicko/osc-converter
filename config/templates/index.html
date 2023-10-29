@@ -12,7 +12,7 @@
     </div>
     <div class="settings device">
       <h2>Device Settings</h2>
-      <form action="" method="POST" class="device-form">
+      <form action="" method="POST" id="device-form">
         <!-- {{ device_form }} -->
         <div class="console-fields">
           {{ device_form.console_ip.label(class="") }}
@@ -26,13 +26,13 @@
           {{ device_form.baud_rate.label(class="") }}
           {{ device_form.baud_rate }}
         </div>
-        {{ device_form.submit }}
-        <button type="reset">Restore default settings</button>
+        {{ device_form.submit_device_form }}
+        {{ device_form.reset_device_form }}
       </form>
     </div>
     <div class="settings network">
       <h2>Local Settings</h2>
-      <form action="" method="POST">
+      <form action="" method="POST" id="network-form">
         <!-- {{ network_form }} -->
         {{ network_form.ip.label }}
         {{ network_form.ip }}
@@ -40,7 +40,8 @@
         {{ network_form.subnet_mask }}
         {{ network_form.gateway.label }}
         {{ network_form.gateway }}
-        {{ network_form.submit}}
+        {{ network_form.submit_network_form }}
+        {{ network_form.reset_network_form }}
       </form>
     </div>
   </div>
