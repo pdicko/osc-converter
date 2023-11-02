@@ -1,65 +1,18 @@
-from flask import Flask, render_template, request
-from config.forms import DeviceSettings, NetworkSettings
-from configparser import ConfigParser
+from config.config import open_settings
 
+""" HTML page for user to input serial and tcp info.
 
-def get_current_settings(section):
-    parser = ConfigParser()
-    parser.read('config/config.ini')
+A Flask html page with forms for the tcp settings and serial device settings.
+This includes the IP Address and OSC port for the console, the device path for the
+USB device, and teh IPv4 network info for the bridge. Config data is stored in 
+config.ini. Configparser is used to fill in the form fields with the current settings
+on load. When the user submits the form with new values, config.ini is updated
 
-    return dict(parser.items(section))
+TODO:
 
-
-def update_settings():
-    form = dict(request.form)
-
-    parser = ConfigParser()
-    config = 'config/config.ini'
-    parser.read(config)
-
-    if 'submit_device_form' in form:
-        section = 'DEVICE-CURRENT'
-        form.popitem()
-        for key in form.keys():
-            parser.set(section, key, form[key])
-    elif 'reset_device_form' in form:
-        section = 'DEVICE-CURRENT'
-        defaults = dict(parser.items('DEVICE-DEFAULTS'))
-        print(f'{defaults}')
-        for key in defaults.keys():
-            parser.set(section, key, defaults[key])
-    elif 'submit_network_form' in form:
-        section = 'NETWORK-CURRENT'
-        form.popitem()
-        for key in form.keys():
-            parser.set(section, key, form[key])
-    elif 'reset_network_form' in form:
-        section = 'NETWORK-CURRENT'
-        defaults = dict(parser.items('NETWORK-DEFAULTS'))
-        print(f'{defaults}')
-        for key in defaults.keys():
-            parser.set(section, key, defaults[key])
-
-    with open(config, 'w') as file:
-        parser.write(file)
-
-
-def open_settings():
-    app = Flask(__name__)
-    app.config['SECRET_KEY'] = '5894d4258a390d7d0ef6b3bfa8861fbd'
-
-    @app.route('/', methods=['GET', 'POST'])
-    def open_index():
-        if request.method == "POST":
-            update_settings()
-
-        current_device_settings = get_current_settings('DEVICE-CURRENT')
-        current_network_settings = get_current_settings('NETWORK-CURRENT')
-        # will eventually replace with function(s) that get/set network info from
-        # the operating system
-
-        device_form = DeviceSettings(current_device_settings)
-        network_form = NetworkSettings(current_network_settings)
-        return render_template('index.html', device_form=device_form, network_form=network_form)
-
-    return app
+Right now, the network settings for the bridge device are just updated in config.ini,
+but the system's network settings are not changed. That will probably need to be done using
+the NetworkManager package which doesn't work on MacOS. Once the program is loaded
+onto the Raspberry Pi Zero, there will need to be new code to update the network
+settings and restart the script or os if necessary.
+"""
