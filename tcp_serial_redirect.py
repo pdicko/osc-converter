@@ -197,7 +197,6 @@ it waits for the next connect.
                 client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
             try:
                 ser_to_net.socket = client_socket
-                # enter network <-> serial loop
                 while True:
                     try:
                         data = client_socket.recv(1024)
