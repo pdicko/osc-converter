@@ -30,6 +30,7 @@ def open_bridge():
 
     try:
         ser.open()
+        print('serial port opened')
     except serial.SerialException as e:
         sys.stderr.write('Could not open serial port {}: {}\n'.format(ser.name, e))
         sys.exit(1)
@@ -37,6 +38,7 @@ def open_bridge():
     osc_bridge = SerialToNet()
     serial_thread = serial.threaded.ReaderThread(ser, osc_bridge)
     serial_thread.start()
+    print('serial thread started')
 
     try:
         intentional_exit = False
@@ -49,6 +51,7 @@ def open_bridge():
 
             try:
                 client_socket.connect((host, int(port)))
+                print('client socket conected')
             except socket.error as msg:
                 sys.stderr.write('WARNING: {}\n'.format(msg))
                 time.sleep(5)  # intentional delay on reconnection as client
@@ -84,3 +87,7 @@ def open_bridge():
 
     sys.stderr.write('\n--- exit ---\n')
     serial_thread.stop()
+
+
+if __name__ == "__main__":
+    open_bridge()
