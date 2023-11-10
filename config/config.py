@@ -10,7 +10,7 @@ def get_current_settings(section):
     return dict(parser.items(section))
 
 
-def update_settings():
+def _update_settings():
     form = dict(request.form)
 
     parser = ConfigParser()
@@ -49,7 +49,7 @@ def open_settings():
     @app.route('/', methods=['GET', 'POST'])
     def open_index():
         if request.method == "POST":
-            update_settings()
+            _update_settings()
 
         current_device_settings = get_current_settings('DEVICE-CURRENT')
         current_network_settings = get_current_settings('NETWORK-CURRENT')

@@ -88,6 +88,3 @@ def open_bridge():
     sys.stderr.write('\n--- exit ---\n')
     serial_thread.stop()
 
-
-if __name__ == "__main__":
-    open_bridge()
