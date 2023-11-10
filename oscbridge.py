@@ -21,12 +21,13 @@ class SerialToNet(serial.threaded.Protocol):
             self.socket.sendall(data)
 
 
-def open_bridge():
-    current_device_settings = get_current_settings('DEVICE-CURRENT')
-    current_network_settings = get_current_settings('NETWORK-CURRENT')
+def open_bridge(serial_conn, socket_address):
+    ser = serial_conn
+    # current_device_settings = get_current_settings('DEVICE-CURRENT')
+    # current_network_settings = get_current_settings('NETWORK-CURRENT')
 
-    ser = serial.serial_for_url(current_device_settings['serial_device'], do_not_open=True)
-    ser.baudrate = current_device_settings['baud_rate']
+    # ser = serial.serial_for_url(current_device_settings['serial_device'], do_not_open=True)
+    # ser.baudrate = current_device_settings['baud_rate']
 
     try:
         ser.open()
@@ -43,14 +44,14 @@ def open_bridge():
     try:
         intentional_exit = False
         while True:
-            console_ip = current_device_settings['console_ip']
-            tcp_port = current_device_settings['tcp_port']
-            host, port = console_ip, tcp_port
+            # console_ip = current_device_settings['console_ip']
+            # tcp_port = current_device_settings['tcp_port']
+            # host, port = console_ip, tcp_port
 
             client_socket = socket.socket()
 
             try:
-                client_socket.connect((host, int(port)))
+                client_socket.connect(socket_address)
                 print('client socket conected')
             except socket.error as msg:
                 sys.stderr.write('WARNING: {}\n'.format(msg))
