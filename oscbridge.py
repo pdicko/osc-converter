@@ -1,6 +1,5 @@
 import sys
 import socket
-# import serial
 import serial.threaded
 import time
 

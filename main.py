@@ -4,6 +4,7 @@ import serial.threaded
 from config import open_settings
 from oscbridge import open_bridge
 from config.config import get_current_settings
+from observer import get_state, set_state
 
 
 def main():
@@ -21,6 +22,9 @@ def main():
 
     flask_app = open_settings()
     flask_app.run(host='0.0.0.0', debug=False, threaded=True)
+
+    running = True
+    set_state(running)
 
 
 if __name__ == "__main__":
