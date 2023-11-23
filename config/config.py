@@ -1,11 +1,16 @@
+import time
+
 from flask import Flask, render_template, request
 from config.forms import DeviceSettings, NetworkSettings
 from configparser import ConfigParser
+from oscbridge import OscBridge
+from observer import set_state
 
 
 def get_current_settings(section):
     parser = ConfigParser()
     parser.read('config/config.ini')
+    parser.read('config.ini')
 
     return dict(parser.items(section))
 
@@ -61,3 +66,9 @@ def open_settings():
         return render_template('index.html', device_form=device_form, network_form=network_form)
 
     return app
+
+
+if __name__ == '__main__':
+
+    flask_app = open_settings()
+    flask_app.run(host='0.0.0.0', debug=False, threaded=True)

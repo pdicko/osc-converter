@@ -9,7 +9,7 @@ def get_state():
 
 
 def set_state(state_bool):
-    state = state_bool
+    state = str(state_bool)
     config = 'config/config.ini'
     parser = ConfigParser()
     parser.read(config)

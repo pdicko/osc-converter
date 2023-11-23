@@ -178,7 +178,7 @@ it waits for the next connect.
                     continue
                 sys.stderr.write('Connected\n')
                 client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-                #~ client_socket.settimeout(5)
+                # client_socket.settimeout(5)
             else:
                 sys.stderr.write('Waiting for connection on {}...\n'.format(args.localport))
                 client_socket, addr = srv.accept()
