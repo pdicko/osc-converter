@@ -1,27 +1,27 @@
 import threading
 import time
 
-import serial.threaded
-
-from config import open_settings
+from config import SettingsPage
 from oscbridge import OscBridge
-from config.config import get_current_settings
 
 
 def main():
-    current_device_settings = get_current_settings('DEVICE-CURRENT')
-
+    # restart_trigger = threading.Event()
+    settings_page = SettingsPage()
+    current_device_settings = settings_page.get_current_settings('DEVICE-CURRENT')
     bridge = OscBridge(current_device_settings)
 
-    # bridge_thread = threading.Thread(target=bridge.open_bridge)
-    # bridge_thread.start()
-    bridge.open_bridge()
+    bridge_thread = threading.Thread(target=bridge.open_bridge)
+    bridge_thread.start()
+    for thread in threading.enumerate():
+        print(thread.name)
 
-    # bridge_handler_thread = threading.Thread(target=bridge.close_bridge)
-    # bridge_handler_thread.start()
+    observer_thread = threading.Thread(target=bridge.close_bridge)
+    observer_thread.start()
 
-    # flask_app = open_settings()
-    # flask_app.run(host='0.0.0.0', debug=False, threaded=True)
+    settings_page.bridge = bridge
+    flask_app = settings_page.open_settings(bridge.restart_trigger)
+    flask_app.run()
 
 
 if __name__ == "__main__":
