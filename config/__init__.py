@@ -1,4 +1,4 @@
-from config.config import SettingsPage
+from config.config import get_current_settings, open_settings
 
 """ HTML page for user to input serial and tcp info.
 
