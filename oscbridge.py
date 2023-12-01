@@ -31,7 +31,7 @@ class OscBridge:
         self.serial_thread = serial.threaded.ReaderThread(self.ser, self.osc_bridge)
         # self.flag = threading.Event()
 
-    def open_bridge(self):
+    def open_bridge(self, restart_flag):
         try:
             self.ser.open()
             sys.stdout.write('Serial port opened\n')
@@ -45,7 +45,7 @@ class OscBridge:
         while True:
             try:
                 self.client_socket.connect(self.address)
-                sys.stdout.write('Socket connectied\n')
+                sys.stdout.write('Socket connected\n')
                 self.client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
             except socket.error as msg:
                 sys.stderr.write('WARNING: {}\n'.format(msg))
@@ -66,15 +66,18 @@ class OscBridge:
                 sys.stderr.write('WARNING: {}\n'.format(msg))
                 sys.exit(1)
             finally:
+                print('Closing bridge')
                 self.osc_bridge.socket = None
                 sys.stderr.write('Disconnected\n')
                 self.client_socket.close()
+                self.serial_thread.close()
+                print('Bridge closed')
                 break
 
-        print('closing bridge')
+        print('Restarting...')
+        restart_flag.set()
 
-    def close_bridge(self, flag):
-        flag.wait()
-        print('triggerrrrred')
+    def close_bridge(self, update_flag):
+        update_flag.wait()
         self.client_socket.shutdown(socket.SHUT_RDWR)
-        flag.clear()
+        update_flag.clear()

@@ -53,6 +53,7 @@ def open_settings(event):
     def load_index():
         if request.method == "POST":
             _update_settings()
+            print(event.is_set())
             event.set()
 
         current_device_settings = get_current_settings('DEVICE-CURRENT')
