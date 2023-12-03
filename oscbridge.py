@@ -19,7 +19,7 @@ class SerialToNet(serial.threaded.Protocol):
 
 
 class OscBridge:
-    def __init__(self, settings):
+    def __init__(self, settings, update_flag, restart_flag):
         self.current_device_settings = settings
         self.ser = serial.serial_for_url(self.current_device_settings['serial_device'], do_not_open=True)
         self.ser.baudrate = self.current_device_settings['baud_rate']
@@ -29,27 +29,34 @@ class OscBridge:
         self.client_socket = socket.socket()
         self.osc_bridge = SerialToNet()
         self.serial_thread = serial.threaded.ReaderThread(self.ser, self.osc_bridge)
-        # self.flag = threading.Event()
+        self.update_flag = update_flag
+        self.restart_flag = restart_flag
 
-    def open_bridge(self, restart_flag):
+    def open_bridge(self):
         try:
             self.ser.open()
             sys.stdout.write('Serial port opened\n')
         except serial.SerialException as e:
             sys.stderr.write('Could not open serial port {}: {}\n'.format(self.ser.name, e))
-            sys.exit(1)
+            return
 
-        self.serial_thread.start()
-        sys.stdout.write('Serial thread started\n')
+        try:
+            self.serial_thread.start()
+            sys.stdout.write('Serial thread started\n')
+        except serial.SerialException as e:
+            sys.stderr.write(str(e))
+            return
 
         while True:
             try:
                 self.client_socket.connect(self.address)
                 sys.stdout.write('Socket connected\n')
                 self.client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+                self.client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             except socket.error as msg:
                 sys.stderr.write('WARNING: {}\n'.format(msg))
-                sys.exit(1)
+                sys.stderr.write('Connection failed\n')
+                return
 
             try:
                 self.osc_bridge.socket = self.client_socket
@@ -60,24 +67,30 @@ class OscBridge:
                             break
                         self.ser.write(data)
                     except socket.error as msg:
+                        print('Socket disconnected')
                         sys.stderr.write('WARNING: {}\n'.format(msg))
-                        sys.exit(1)
+                        return
             except socket.error as msg:
+                print('Exiting: Serial thread could not connect to socket')
                 sys.stderr.write('WARNING: {}\n'.format(msg))
-                sys.exit(1)
-            finally:
-                print('Closing bridge')
-                self.osc_bridge.socket = None
-                sys.stderr.write('Disconnected\n')
-                self.client_socket.close()
-                self.serial_thread.close()
-                print('Bridge closed')
-                break
+                return
 
-        print('Restarting...')
-        restart_flag.set()
+    def close_bridge(self):
+        self.update_flag.wait()
+        self._shutdown()
+        self.update_flag.clear()
 
-    def close_bridge(self, update_flag):
-        update_flag.wait()
-        self.client_socket.shutdown(socket.SHUT_RDWR)
-        update_flag.clear()
+    def _shutdown(self):
+        print('Shutting down...')
+        if self.osc_bridge.socket:
+            self.osc_bridge.socket = None
+            self.client_socket.shutdown(socket.SHUT_RDWR)
+            self.client_socket.close()
+            print('Socket connection closed successfully')
+        if self.serial_thread.is_alive():
+            self.serial_thread.close()
+            self.ser.close()
+            print('Serial connection closed successfully')
+
+        self.restart_flag.set()
+
