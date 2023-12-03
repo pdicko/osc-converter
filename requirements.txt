@@ -1,0 +1,5 @@
+WTForms~=3.1.0
+Flask~=3.0.0
+pyserial~=3.5
+sliplib~=0.6.2
+osc4py3~=1.0.8
