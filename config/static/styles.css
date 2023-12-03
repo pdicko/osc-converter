@@ -119,6 +119,7 @@ input:focus {
 input[type=submit] {
   background-color: #f9fafb;
   width: 200px;
+  cursor: pointer;
 }
 
 #submit_device_form, #submit_network_form {
