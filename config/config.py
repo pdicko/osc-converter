@@ -7,7 +7,7 @@ from configparser import ConfigParser
 
 def get_current_settings(section):
     parser = ConfigParser()
-    parser.read('config/config.ini')
+    parser.read('/home/zero/python-projects/osc-converter/config/config.ini')
     parser.read('config.ini')
 
     return dict(parser.items(section))

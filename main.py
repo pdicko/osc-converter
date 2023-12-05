@@ -41,7 +41,7 @@ def main():
     run(update_flag, restart_flag)
 
     flask_app = open_settings(update_flag)
-    flask_app.run()
+    flask_app.run(host='0.0.0.0', port=5000)
 
 
 if __name__ == "__main__":
