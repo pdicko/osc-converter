@@ -1,8 +1,10 @@
 import sys
 import socket
-
 import serial.threaded
 
+from parsers.shutdown_listener import sys_shutdown_request
+from sliplib import Driver
+from osc4py3 import oscbuildparse
 
 class SerialToNet(serial.threaded.Protocol):
     """serial->socket"""
@@ -65,7 +67,14 @@ class OscBridge:
                         data = self.client_socket.recv(1024)
                         if not data:
                             break
-                        self.ser.write(data)
+                        # self.ser.write(data)
+                        # if sys_shutdown_request(data):
+                        #     print('SYSTEM SHUTDOWN REQUESTED')
+                        d = Driver()
+                        messages = d.receive(data)
+                        for msg in messages:
+                            osc_msg = oscbuildparse.decode_packet(msg)
+                            print(osc_msg)
                     except socket.error as msg:
                         print('Socket disconnected')
                         sys.stderr.write('WARNING: {}\n'.format(msg))
